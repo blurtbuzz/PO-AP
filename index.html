@@ -10,177 +10,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="jquery.toast.min.css" rel="stylesheet" type="text/css" />
+    <link href="./css/jquery.toast.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .poap-logos {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-        }
-
-        .poap-circles {
-            width: 95 px;
-            height: 95 px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 12 px 12 px 0;
-            background-color: #fff;
-            box-shadow: 0 10px 30px -5px rgb(101 52 255 / 50%);
-            margin-right: 1em;
-            margin-left: 1em;
-            margin-bottom: 1em;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 64 em;
-            min-width: 20 em;
-            margin-right: auto;
-            margin-left: auto;
-            margin-top: 10em;
-            padding-left: 1 em;
-            padding-right: 1 em;
-        }
-
-
-        li {
-            display: inline-block;
-        }
-
-        input[type="checkbox"] {
-            display: none;
-        }
-
-        label {
-            border: 1px solid #fff;
-            padding: 10px;
-            display: block;
-            position: relative;
-            margin: 10px;
-            cursor: pointer;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        label::before {
-            background-color: white;
-            color: white;
-            content: " ";
-            display: block;
-            border-radius: 50%;
-            border: 1px solid grey;
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            width: 25px;
-            height: 25px;
-            text-align: center;
-            line-height: 28px;
-            transition-duration: 0.4s;
-            transform: scale(0);
-        }
-
-        label img {
-            height: 100px;
-            width: 100px;
-            transition-duration: 0.2s;
-            transform-origin: 50% 50%;
-        }
-
-        :checked+label {
-            border-color: #ddd;
-        }
-
-        :checked+label::before {
-            content: "✓";
-            background-color: grey;
-            transform: scale(1);
-        }
-
-        :checked+label img {
-            transform: scale(0.9);
-            box-shadow: 0 0 5px #333;
-            z-index: -1;
-        }
-
-        .sidebar {
-            width: 20%;
-            height: 60vh;
-            min-height: 200px;
-            overflow: auto;
-            position: -webkit-sticky;
-            position: sticky;
-            top: 5%;
-            border: 2px solid #222;
-            margin-right: 3em;
-        }
-
-        .main {
-            width: 80%;
-            height: auto;
-            min-height: 1000px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .main,
-        .sidebar {
-
-            background-color: white;
-            border-radius: 10px;
-            color: #222;
-            padding: 15px;
-        }
-
-        .wrapper {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .bubbly-button {
-            min-width: 200px;
-            padding: 4px 6px;
-            background: rgb(40, 44, 52);
-            font-size: 22px;
-            font-weight: 700;
-            color: rgb(241, 238, 242);
-            border: 2px solid rgb(241, 238, 242);
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .header {
-            background: rgb(0, 178, 255);
-            color: #fff;
-        }
-
-        #poapCartCount {
-            font-size: 12px;
-            background: #ff0000;
-            color: #fff;
-            padding: 0 5px;
-            vertical-align: top;
-            margin-left: -10px;
-        }
-
-        .badge {
-            padding-left: 9px;
-            padding-right: 9px;
-            -webkit-border-radius: 9px;
-            -moz-border-radius: 9px;
-            border-radius: 9px;
-        }
-
-        .label-warning[href],
-        .badge-warning[href] {
-            background-color: #c67605;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/style.css" type="text/css"/>
 </head>
 
 <body>
@@ -193,9 +25,6 @@
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#cartModal">
@@ -207,6 +36,11 @@
             </form>
         </div>
     </nav>
+    <div class="container">
+        <div id = "spinner"></div>
+        <div id="poapsList" class="poap-logos"></div>
+        <div class="col-md-12 text-center" id="nothing"></div>
+    </div>
     <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -230,43 +64,36 @@
             </div>
         </div>
     </div>
-    <div class="wrapper">
 
-        <div class="container-fluid">
 
-            <div id="poapsList" class="poap-logos"></div>
-        </div>
-        <div class="modal fade" id="transferModal" tabindex="-1" role="dialog" aria-labelledby="transferModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="transferModalLabel">Transfer</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="to" class="col-form-label">To:</label>
-                                <input type="text" class="form-control" id="to" placeholder="XDAI Address">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <form id="transfer" class="field has-addons has-addons-centered">
-                            <button class="btn btn-primary" type="submit">Transfer</button>
-                        </form>
-                    </div>
+    <div class="modal fade" id="transferModal" tabindex="-1" role="dialog" aria-labelledby="transferModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transferModalLabel">Transfer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="to" class="col-form-label">To:</label>
+                            <input type="text" class="form-control" id="to" placeholder="XDAI Address">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form id="transfer" class="field has-addons has-addons-centered">
+                        <button class="btn btn-primary" type="submit">Transfer</button>
+                    </form>
                 </div>
             </div>
         </div>
-
-
     </div>
-    </div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -277,12 +104,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script src="js/app.js"></script>
+    <script src="./js/app.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
-    <script src="jquery.toast.min.js" type="text/javascript"></script>
+    <script src="./js/jquery.toast.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"
         integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+
 
 </body>
 

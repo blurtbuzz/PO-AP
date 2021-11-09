@@ -61,7 +61,29 @@ const failedConnectWallet = () => {
 
 
 const displayPoaps = async (address) => {
+    $('#spinner').html(` <div class="row">
+    <div id="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="lading"></div>
+    </div>
+</div>`);
     let poapsList = await getPoapsList(address);
+    $('#spinner').hide();
+    if(poapsList.length==0){
+        $('#nothing').html(`
+        <h2>Hey There!</h2>
+        <img src='./images/no_poap.jpg' style="width:50%;height:50%">'
+        <br/>
+        <br/>
+        <h3>You don't own any POAPs!</h3>`)
+    }
     let html = '';
     for (let poap of poapsList) {
         let id = poap.id;
@@ -121,7 +143,7 @@ const connectWallet = async () => {
     }
     provider = new ethers.providers.Web3Provider(window.ethereum);
     const accounts = await provider.send("eth_requestAccounts");
-    document.getElementById("button").innerHTML = accounts[0].substring(0, 6) + "..." + accounts[0].slice(-4);
+    document.getElementById("button").innerHTML = accounts[0].substring(0, 4) + "..." + accounts[0].slice(-4);
     let address = ethers.utils.getAddress(accounts[0]);
     displayPoaps(address)
 };
