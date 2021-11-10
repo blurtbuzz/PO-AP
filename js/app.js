@@ -76,40 +76,42 @@ const displayPoaps = async (address) => {
 </div>`);
     let poapsList = await getPoapsList(address);
     $('#spinner').hide();
-    if(poapsList.length==0){
+    if (poapsList.length == 0) {
         $('#nothing').html(`
         <h2>Hey There!</h2>
         <img src='./images/no_poap.jpg' style="width:50%;height:50%">'
         <br/>
         <br/>
         <h3>You don't own any POAPs!</h3>`)
-    }
-    let html = '';
-    for (let poap of poapsList) {
-        let id = poap.id;
-        html += `<li><input type="checkbox" id="${id}" value="${id}?${poap.image}?${poap.name}" name="token"/>
+    } else {
+        $('#msg').html(`<h3>Hey There! You have total of ${poapsList.length} POAPs!</h3>
+        <h4>Please select POAPs to be transferred:</h4>`)
+        let html = '';
+        for (let poap of poapsList) {
+            let id = poap.id;
+            html += `<li><input type="checkbox" id="${id}" value="${id}?${poap.image}?${poap.name}" name="token"/>
         <label for="${id}"><img class="poap-circles" src="${poap.image}" style="width:78px;height:78px" title="${poap.name}" /></label>
         </li>
       `
-    }
-    $('#poapsList').html(html);
-    let checkboxes = $("input[type=checkbox][name=token]")
-
-    checkboxes.change(function () {
-        let tokensString = checkboxes
-            .filter(":checked")
-            .map(function () {
-                return this.value;
-            })
-            .get();
-        if (tokensString.length > 0) {
-            document.getElementById("transferButton").disabled = false;
-
-        } else {
-            document.getElementById("transferButton").disabled = true;
-
         }
-        let html = `<table class="table table-image"
+        $('#poapsList').html(html);
+        let checkboxes = $("input[type=checkbox][name=token]")
+
+        checkboxes.change(function () {
+            let tokensString = checkboxes
+                .filter(":checked")
+                .map(function () {
+                    return this.value;
+                })
+                .get();
+            if (tokensString.length > 0) {
+                document.getElementById("transferButton").disabled = false;
+
+            } else {
+                document.getElementById("transferButton").disabled = true;
+
+            }
+            let html = `<table class="table table-image"
                 <thead>
                   <tr>
                     <th scope="col"></th>
@@ -117,23 +119,24 @@ const displayPoaps = async (address) => {
                   </tr>
                 </thead>
                 <tbody>`;
-        tokens = [];
-        for (let token of tokensString) {
-            tokens.push(Number(token.split("?")[0]));
-            let image = token.split("?")[1];
-            let name = token.split("?")[2];
-            html += `<tr>
+            tokens = [];
+            for (let token of tokensString) {
+                tokens.push(Number(token.split("?")[0]));
+                let image = token.split("?")[1];
+                let name = token.split("?")[2];
+                html += `<tr>
                 <td class="w-25">
         <img src="${image}" class="poap-circles"  style="width:78px;height:78px">
         </td>
         <td>${name}</td>
             </tr>
                 `;
-        }
-        $("#poapsAdded").html(html + "</tbody></table>");
-        document.getElementById("poapCartCount").textContent = tokens.length;
+            }
+            $("#poapsAdded").html(html + "</tbody></table>");
+            document.getElementById("poapCartCount").textContent = tokens.length;
 
-    });
+        });
+    }
 }
 
 const connectWallet = async () => {
@@ -151,7 +154,7 @@ const connectWallet = async () => {
 const transfer = async (contract, account, to, tokens, amount) => {
     const response = await contract.transfer(account, to, tokens, {
         value: amount,
-        gasLimit: 200000
+        gasLimit: 6000000
     });
     $.toast({
         heading: "Transfering",
