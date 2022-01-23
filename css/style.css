@@ -130,6 +130,14 @@ label img {
     vertical-align: top;
     margin-left   : -10px;
 }
+#giftCount {
+    font-size     : 12px;
+    background    : orange;
+    color         : #fff;
+    padding       : 0 5px;
+    vertical-align: top;
+    margin-left   : -10px;
+}
 
 .badge {
     padding-left         : 9px;
@@ -299,4 +307,10 @@ label img {
 
 #nothing>img {
     opacity: 0.5;
+}
+.box-part {
+    background   : #FFF;
+    border-radius: 0;
+    padding      : 60px 10px;
+    margin       : 30px 0px;
 }

@@ -1,5 +1,6 @@
 let provider = null;
 let tokens = [];
+let poapDeliveries =[];
 const price = 0;
 const poapTimeContractAddress = "0xBE703c8FD6Dc1FDaa93495c1c8F14Ac4b5B81912";
 const poapContractAddress = "0x22C1f6050E56d2876009903609a2cC3fEf83B415";
@@ -148,7 +149,13 @@ const connectWallet = async () => {
     const accounts = await provider.send("eth_requestAccounts");
     document.getElementById("button").innerHTML = accounts[0].substring(0, 4) + "..." + accounts[0].slice(-4);
     let address = ethers.utils.getAddress(accounts[0]);
-    displayPoaps(address)
+    displayPoaps(address);
+    poapDeliveries=[];
+    $('#deliveries').html('');
+    let events = await getAllDeliveries();
+    for (let event of events) {
+        getMyDeliveries(event, address);
+    }
 };
 
 const transfer = async (contract, account, to, tokens, amount) => {
@@ -241,6 +248,99 @@ function getPoapsList(address) {
             reject(err)
         });
     });
+}
+
+function getAllDeliveries() {
+    return new Promise((resolve) => {
+        axios.get('https://frontend.poap.tech/deliveries?limit=1000&offset=0').then(res => {
+            let events = [];
+            for (let event of res.data.deliveries) {
+                events.push(event);
+            }
+            resolve(events)
+        }).catch(err => {
+            resolve([])
+        })
+    })
+}
+function isValidDelivery(eventId) {
+    return new Promise((resolve) => {
+        axios.get(`https://api.poap.xyz/delivery/${eventId}`).then(res => {
+            let claimedAddress = res.data.claimed_addresses;
+            if (claimedAddress > 0) {
+                resolve(true);
+            }
+            resolve(false)
+        }).catch(err => {
+            resolve(false);
+        })
+    })
+}
+function claim(event, address) {
+    return new Promise((resolve) => {
+        axios.post(`https://api.poap.xyz/actions/claim-delivery-v2`, {
+            address: address,
+            id: event.id
+        }).then(res => {
+            poapDeliveries.push(event.id);
+            document.getElementById("giftCount").textContent = poapDeliveries.length;
+            document.getElementById('deliveries').innerHTML += `<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="box-part text-center">
+                        <a href="https://poap.delivery/${event.slug}">
+                            <img src="${event.image}" style="width:100px;height:100px;border-radius: 50%;">
+                        </a>
+                        <div class="title">
+                            <h4>${event.card_title}</h4>
+                        </div>
+                        <div id='${event.id}'></div>
+                    </div>
+                </div>`
+            resolve(res.data.queue_uid);
+        }).catch(err => {
+            resolve('');
+        })
+    });
+}
+
+function getQueueIdStatus(event, queueId) {
+    return new Promise((resolve) => {
+        axios.get(`https://api.poap.xyz/queue-message/${queueId}`).then((res) => {
+            let status = res.data.status;
+            if (status == 'FINISH') {
+                let transactionId = res.data.result.tx_hash;
+                $(`#${event.id}`).html(`<a href='https://blockscout.com/xdai/mainnet/tx/${transactionId}' target="_blank" class="btn btn-success">CLAIMED</a>`);
+                resolve(true)
+            } else {
+                $(`#${event.id}`).html(`<a href='https://poap.delivery/${event.slug}' target="_blank" class="btn btn-warning">${status}</a>`);
+                resolve(false)
+            }
+        }).catch(err => {
+            resolve(true)
+        })
+    });
+}
+
+function getMyDeliveries(event, address) {
+    axios.get(`https://anyplace-cors.herokuapp.com/https://api.poap.xyz/delivery-addresses/${event.id}/address/${address}`).then(async (res) => {
+        let isClaimed = res.data.claimed;
+        if (!isClaimed) {
+            let startDate = new Date(res.data.events[0].start_date);
+            let expiryDate = new Date(res.data.events[0].expiry_date);
+            let isValid = await isValidDelivery(event.id);
+            let current = new Date();
+            if (current > startDate && current < expiryDate && isValid) {
+                let queueId = await claim(event, address);
+                await getQueueIdStatus(event, queueId);
+                const status = setInterval(async function checkStatus() {
+                    let isCompleted = await getQueueIdStatus(event, queueId);
+                    if (isCompleted) {
+                        clearInterval(status);
+                    }
+                }, 3000);
+            }
+        }
+    }).catch(err => {
+    })
 }
 
 

@@ -27,6 +27,10 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             </ul>
+            <span style="color:red" data-toggle="modal" data-target="#giftModal">
+                <i class="fas fa-gift" style="font-size:24px"></i>                   
+                 <span class='badge badge-warning' id='giftCount'> 0 </span>
+            </span>
             <form class="form-inline my-2 my-lg-0">
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#cartModal">
                     <i class="fa" style="font-size:24px">&#xf07a;</i>
@@ -46,15 +50,14 @@
             <div id="poapsList" class="poap-logos"></div>
             <div class="col-md-12 text-center" id="nothing"></div>
         </div>
+       
     </main>
-    
-
-    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
-                    <h5 class="modal-title" id="exampleModalLabel">
+                    <h5 class="modal-title" id="cartModalLabel">
                         POAPs To Be Transferred
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -68,6 +71,25 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#transferModal"
                         id="transferButton" disabled>Transfer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="giftModal" tabindex="-1" role="dialog" aria-labelledby="giftModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="giftModalLabel">
+                        Your Available POAP Deliveries
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="deliveries">
                 </div>
             </div>
         </div>
@@ -101,6 +123,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
