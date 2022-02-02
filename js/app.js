@@ -1,53 +1,47 @@
 let provider = null;
 let tokens = [];
-let poapDeliveries =[];
+let poapDeliveries = [];
 const price = 0;
 const poapTimeContractAddress = "0xBE703c8FD6Dc1FDaa93495c1c8F14Ac4b5B81912";
 const poapContractAddress = "0x22C1f6050E56d2876009903609a2cC3fEf83B415";
 const poapAbi = [{ "constant": true, "inputs": [{ "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "eventId", "type": "uint256" }], "name": "renounceEventMinter", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "name", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "tokenId", "type": "uint256" }], "name": "getApproved", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "to", "type": "address" }, { "name": "tokenId", "type": "uint256" }], "name": "approve", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "tokenId", "type": "uint256" }], "name": "tokenEvent", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "eventId", "type": "uint256" }, { "name": "account", "type": "address" }], "name": "removeEventMinter", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "account", "type": "address" }], "name": "removeAdmin", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "from", "type": "address" }, { "name": "to", "type": "address" }, { "name": "tokenId", "type": "uint256" }], "name": "transferFrom", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "account", "type": "address" }], "name": "isAdmin", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "eventId", "type": "uint256" }, { "name": "to", "type": "address[]" }], "name": "mintEventToManyUsers", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "eventId", "type": "uint256" }, { "name": "account", "type": "address" }], "name": "isEventMinter", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "owner", "type": "address" }, { "name": "index", "type": "uint256" }], "name": "tokenOfOwnerByIndex", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "unpause", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "from", "type": "address" }, { "name": "to", "type": "address" }, { "name": "tokenId", "type": "uint256" }], "name": "safeTransferFrom", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "tokenId", "type": "uint256" }], "name": "burn", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "index", "type": "uint256" }], "name": "tokenByIndex", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "baseURI", "type": "string" }], "name": "setBaseURI", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "paused", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "tokenId", "type": "uint256" }], "name": "ownerOf", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "owner", "type": "address" }, { "name": "index", "type": "uint256" }], "name": "tokenDetailsOfOwnerByIndex", "outputs": [{ "name": "tokenId", "type": "uint256" }, { "name": "eventId", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "account", "type": "address" }], "name": "addAdmin", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "initialize", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "pause", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "renounceAdmin", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "__name", "type": "string" }, { "name": "__symbol", "type": "string" }, { "name": "__baseURI", "type": "string" }, { "name": "admins", "type": "address[]" }], "name": "initialize", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "symbol", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "eventId", "type": "uint256" }, { "name": "account", "type": "address" }], "name": "addEventMinter", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "eventId", "type": "uint256" }, { "name": "to", "type": "address" }], "name": "mintToken", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "to", "type": "address" }, { "name": "approved", "type": "bool" }], "name": "setApprovalForAll", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "from", "type": "address" }, { "name": "to", "type": "address" }, { "name": "tokenId", "type": "uint256" }, { "name": "_data", "type": "bytes" }], "name": "safeTransferFrom", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "sender", "type": "address" }], "name": "initialize", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "tokenId", "type": "uint256" }], "name": "tokenURI", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "eventId", "type": "uint256" }, { "name": "tokenId", "type": "uint256" }, { "name": "to", "type": "address" }], "name": "mintToken", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "owner", "type": "address" }, { "name": "operator", "type": "address" }], "name": "isApprovedForAll", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "eventIds", "type": "uint256[]" }, { "name": "to", "type": "address" }], "name": "mintUserToManyEvents", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "eventId", "type": "uint256" }, { "indexed": false, "name": "tokenId", "type": "uint256" }], "name": "EventToken", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "account", "type": "address" }], "name": "Paused", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "account", "type": "address" }], "name": "Unpaused", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "account", "type": "address" }], "name": "AdminAdded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "account", "type": "address" }], "name": "AdminRemoved", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "eventId", "type": "uint256" }, { "indexed": true, "name": "account", "type": "address" }], "name": "EventMinterAdded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "eventId", "type": "uint256" }, { "indexed": true, "name": "account", "type": "address" }], "name": "EventMinterRemoved", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "from", "type": "address" }, { "indexed": true, "name": "to", "type": "address" }, { "indexed": true, "name": "tokenId", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "owner", "type": "address" }, { "indexed": true, "name": "approved", "type": "address" }, { "indexed": true, "name": "tokenId", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "owner", "type": "address" }, { "indexed": true, "name": "operator", "type": "address" }, { "indexed": false, "name": "approved", "type": "bool" }], "name": "ApprovalForAll", "type": "event" }];
-const poapTimeAbi = [
+const poapTimeAbi = [{
+    "inputs": [{
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+    },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "from",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "to",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256[]",
-                "name": "_ids",
-                "type": "uint256[]"
-            }
-        ],
-        "name": "transfer",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+    },
+    {
+        "internalType": "uint256[]",
+        "name": "_ids",
+        "type": "uint256[]"
     }
-];
+    ],
+    "name": "transfer",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+}];
 const switchNetwork = async () => {
-    window?.ethereum
-        ?.request({
-            method: "wallet_addEthereumChain",
-            params: [
-                {
-                    chainId: "0x64",
-                    chainName: "xDAI Chain",
-                    nativeCurrency: {
-                        name: "xDai",
-                        symbol: "xDai",
-                        decimals: 18,
-                    },
-                    rpcUrls: ["https://rpc.xdaichain.com"],
-                    blockExplorerUrls: ["https://blockscout.com/poa/xdai"],
-                },
-            ],
-        })
+    window?.ethereum?.request({
+        method: "wallet_addEthereumChain",
+        params: [{
+            chainId: "0x64",
+            chainName: "xDAI Chain",
+            nativeCurrency: {
+                name: "xDai",
+                symbol: "xDai",
+                decimals: 18,
+            },
+            rpcUrls: ["https://rpc.xdaichain.com"],
+            blockExplorerUrls: ["https://blockscout.com/poa/xdai"],
+        },],
+    })
         .then(() => {
             connectWallet();
         })
@@ -150,12 +144,6 @@ const connectWallet = async () => {
     document.getElementById("button").innerHTML = accounts[0].substring(0, 4) + "..." + accounts[0].slice(-4);
     let address = ethers.utils.getAddress(accounts[0]);
     displayPoaps(address);
-    poapDeliveries=[];
-    $('#deliveries').html('');
-    let events = await getAllDeliveries();
-    for (let event of events) {
-        getMyDeliveries(event, address);
-    }
 };
 
 const transfer = async (contract, account, to, tokens, amount) => {
@@ -235,13 +223,9 @@ const handleTransfer = async (to) => {
 function getPoapsList(address) {
     return new Promise((resolve, reject) => {
         let poapList = [];
-        axios.post(`https://epor.io/api/graph/xdai`,
-            { "query": `\n  query getTokens {\n    tokens(\n      where: {\n        owners_contains: [\"${address}\"] \n      }\n      skip: 0\n      first: 1000\n      orderBy: timestamp\n      orderDirection: desc\n    ) {\n\t\t\tid\n\t\t\ttokenType\n\t\t\ttokenAddress\n\t\t\ttokenId\n\t\t\tbps\n\t\t\turi\n\t\t\tbids\n\t\t\towners\n\t\t\tamounts\n\t\t\tsales(where: {\n\t\t\t\tseller: \"0x5241aa99a776866296D1d695C02bB2E31B3Ff998\" \n\t\t\t})\n      likes { user }\n      likeCount\n\t\t\ttimestamp\n    }\n  }\n` }
-        ).then(async (res) => {
-            for (let token of res.data.data.tokens) {
-                await axios.get(token.uri).then(res => {
-                    poapList.push({ id: token.tokenId, image: res.data.image_url, name: res.data.name })
-                });
+        axios.get(`https://api.poap.xyz/actions/scan/${address.toLowerCase()}`).then(async (res) => {
+            for (let token of res.data) {
+                poapList.push({ id: token.tokenId, image: token.event.image_url, name: token.event.name })
             }
             resolve(poapList)
         }).catch(err => {
@@ -249,101 +233,6 @@ function getPoapsList(address) {
         });
     });
 }
-
-function getAllDeliveries() {
-    return new Promise((resolve) => {
-        axios.get('https://frontend.poap.tech/deliveries?limit=1000&offset=0').then(res => {
-            let events = [];
-            for (let event of res.data.deliveries) {
-                events.push(event);
-            }
-            resolve(events)
-        }).catch(err => {
-            resolve([])
-        })
-    })
-}
-function isValidDelivery(eventId) {
-    return new Promise((resolve) => {
-        axios.get(`https://api.poap.xyz/delivery/${eventId}`).then(res => {
-            let claimedAddress = res.data.claimed_addresses;
-            if (claimedAddress > 0) {
-                resolve(true);
-            }
-            resolve(false)
-        }).catch(err => {
-            resolve(false);
-        })
-    })
-}
-function claim(event, address) {
-    return new Promise((resolve) => {
-        axios.post(`https://api.poap.xyz/actions/claim-delivery-v2`, {
-            address: address,
-            id: event.id
-        }).then(res => {
-            poapDeliveries.push(event.id);
-            document.getElementById("giftCount").textContent = poapDeliveries.length;
-            document.getElementById('deliveries').innerHTML += `<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <div class="box-part text-center">
-                        <a href="https://poap.delivery/${event.slug}">
-                            <img src="${event.image}" style="width:100px;height:100px;border-radius: 50%;">
-                        </a>
-                        <div class="title">
-                            <h4>${event.card_title}</h4>
-                        </div>
-                        <div id='${event.id}'></div>
-                    </div>
-                </div>`
-            resolve(res.data.queue_uid);
-        }).catch(err => {
-            resolve('');
-        })
-    });
-}
-
-function getQueueIdStatus(event, queueId) {
-    return new Promise((resolve) => {
-        axios.get(`https://api.poap.xyz/queue-message/${queueId}`).then((res) => {
-            let status = res.data.status;
-            if (status == 'FINISH') {
-                let transactionId = res.data.result.tx_hash;
-                $(`#${event.id}`).html(`<a href='https://blockscout.com/xdai/mainnet/tx/${transactionId}' target="_blank" class="btn btn-success">CLAIMED</a>`);
-                resolve(true)
-            } else {
-                $(`#${event.id}`).html(`<a href='https://poap.delivery/${event.slug}' target="_blank" class="btn btn-warning">${status}</a>`);
-                resolve(false)
-            }
-        }).catch(err => {
-            resolve(true)
-        })
-    });
-}
-
-function getMyDeliveries(event, address) {
-    axios.get(`https://anyplace-cors.herokuapp.com/https://api.poap.xyz/delivery-addresses/${event.id}/address/${address}`).then(async (res) => {
-        let isClaimed = res.data.claimed;
-        if (!isClaimed) {
-            let startDate = new Date(res.data.events[0].start_date);
-            let expiryDate = new Date(res.data.events[0].expiry_date);
-            let isValid = await isValidDelivery(event.id);
-            let current = new Date();
-            if (current > startDate && current < expiryDate && isValid) {
-                let queueId = await claim(event, address);
-                await getQueueIdStatus(event, queueId);
-                const status = setInterval(async function checkStatus() {
-                    let isCompleted = await getQueueIdStatus(event, queueId);
-                    if (isCompleted) {
-                        clearInterval(status);
-                    }
-                }, 3000);
-            }
-        }
-    }).catch(err => {
-    })
-}
-
-
 
 connectWallet();
 $(document).ready(async function () {
