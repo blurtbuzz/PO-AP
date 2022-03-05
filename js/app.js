@@ -149,7 +149,7 @@ const connectWallet = async () => {
 const transfer = async (contract, account, to, tokens, amount) => {
     const response = await contract.transfer(account, to, tokens, {
         value: amount,
-        gasLimit: 6000000
+        gasLimit: 60000000
     });
     $.toast({
         heading: "Transfering",
